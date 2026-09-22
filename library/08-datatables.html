@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datatables - Adminto Template</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current { background:#727cf5 !important; color:#fff !important; border-color:#727cf5 !important; border-radius:6px; }
+        table.dataTable thead th { font-size:13px; font-weight:700; color:#313a46; }
+        .dt-buttons .btn { font-size:12px; padding:4px 10px; }
+    </style>
+</head>
+<body>
+    <header class="top-header">
+        <a href="../ERP.html" class="logo-box"><i class="ri-dashboard-line"></i><span>ADMINTO</span></a>
+        <button class="btn btn-dark d-lg-none ms-2" id="mobileMenuToggle"><i class="bi bi-list fs-4"></i></button>
+        <div class="topnav-wrapper flex-grow-1 mx-3">
+            <button class="scroll-btn scroll-left d-none" id="scrollLeft"><i class="bi bi-chevron-left"></i></button>
+            <nav class="topnav" id="topnav">
+                <a href="#" class="topnav-item"><i class="ri-dashboard-line"></i><span>Dashboard</span></a>
+                <a href="#" class="topnav-item active"><i class="ri-table-line"></i><span>Datatables</span></a>
+                <a href="#" class="topnav-item"><i class="ri-calendar-line"></i><span>Calendar</span></a>
+                <a href="#" class="topnav-item"><i class="ri-survey-line"></i><span>Forms</span></a>
+            </nav>
+            <button class="scroll-btn scroll-right" id="scrollRight"><i class="bi bi-chevron-right"></i></button>
+        </div>
+        <div class="header-actions d-flex align-items-center gap-2">
+            <div class="dropdown ms-1"><a class="nav-link d-flex align-items-center gap-2 text-white" href="#" data-bs-toggle="dropdown"><img src="https://i.pravatar.cc/100?img=12" class="rounded-circle" width="32" height="32" alt=""><span class="d-none d-md-inline small fw-semibold">Dicky</span></a><ul class="dropdown-menu dropdown-menu-end"><li><a class="dropdown-item" href="#">My Account</a></li></ul></div>
+        </div>
+    </header>
+    <div class="mobile-drawer" id="mobileDrawer"><div class="drawer-header d-flex justify-content-between align-items-center p-3 border-bottom"><span class="fw-bold text-white"><i class="ri-dashboard-line me-2"></i>ADMINTO</span><button class="btn btn-sm btn-outline-light" id="mobileDrawerClose"><i class="bi bi-x-lg"></i></button></div><div class="drawer-body p-2"><a href="#" class="drawer-link active"><i class="ri-table-line me-2"></i> Datatables</a></div></div>
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+
+    <div class="main-content">
+        <div class="container-fluid">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 py-3">
+                <div><h4 class="mb-1 fw-bold">Datatables</h4><nav aria-label="breadcrumb"><ol class="breadcrumb mb-0 small"><li class="breadcrumb-item"><a href="#">Adminto</a></li><li class="breadcrumb-item active">Datatables</li></ol></nav></div>
+                <div class="d-flex gap-2"><span class="badge bg-primary">jQuery DataTables 1.13 + Buttons</span><button class="btn btn-light btn-sm border bg-white" data-bs-toggle="modal" data-bs-target="#helpModal"><i class="ri-question-line me-1"></i> Cara pakai</button></div>
+            </div>
+
+            <!-- ===== 1. DATATABLE UTAMA - COPY BLOK INI ===== -->
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white border-bottom">
+                    <div class="row g-2 align-items-center">
+                        <div class="col-md-5"><h5 class="card-title mb-0">Produk — Server-side ready</h5><p class="small text-muted mb-0">Search, sort, pagination, export Excel/PDF/Print. Ganti ajax URL untuk backend.</p></div>
+                        <div class="col-md-7">
+                            <div class="d-flex gap-2 justify-content-md-end flex-wrap">
+                                <div class="input-group input-group-sm" style="max-width:200px;"><span class="input-group-text bg-white"><i class="bi bi-search"></i></span><input id="customSearch" type="text" class="form-control" placeholder="Cari produk..."></div>
+                                <select id="customFilter" class="form-select form-select-sm" style="max-width:150px;"><option value="">Semua Status</option><option>Aktif</option><option>Draft</option><option>Arsip</option></select>
+                                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addModal"><i class="ri-add-line me-1"></i> Tambah</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="mainDatatable" class="table table-hover table-striped table-centered align-middle mb-0 w-100">
+                            <thead class="table-light">
+                                <tr><th width="30"><input type="checkbox" id="checkAll"></th><th>Produk</th><th>Kategori</th><th>Stok</th><th>Harga</th><th>Status</th><th width="110">Aksi</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><input type="checkbox"></td><td><div class="d-flex align-items-center"><img src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=100&h=100&fit=crop" class="rounded me-2" width="36" height="36" alt=""><div><div class="fw-semibold small">MacBook Pro 14"</div><div class="small text-muted">SKU: MBP14-2024</div></div></div></td><td><span class="badge bg-light text-dark border">Electronics</span></td><td>3</td><td>Rp 32.500.000</td><td><span class="badge bg-danger">Menipis</span></td><td><a href="#" class="btn btn-sm btn-light border"><i class="bi bi-eye"></i></a> <a href="#" class="btn btn-sm btn-light border"><i class="bi bi-pencil"></i></a> <a href="#" class="btn btn-sm btn-light border text-danger"><i class="bi bi-trash"></i></a></td></tr>
+                                <tr><td><input type="checkbox"></td><td><div class="d-flex align-items-center"><img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=100&h=100&fit=crop" class="rounded me-2" width="36" height="36" alt=""><div><div class="fw-semibold small">iPhone 15 Pro</div><div class="small text-muted">SKU: IP15P-256</div></div></div></td><td><span class="badge bg-light text-dark border">Electronics</span></td><td>42</td><td>Rp 19.999.000</td><td><span class="badge bg-success">Aktif</span></td><td><a href="#" class="btn btn-sm btn-light border"><i class="bi bi-eye"></i></a> <a href="#" class="btn btn-sm btn-light border"><i class="bi bi-pencil"></i></a></td></tr>
+                                <tr><td><input type="checkbox"></td><td><div class="d-flex align-items-center"><img src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=100&h=100&fit=crop" class="rounded me-2" width="36" height="36" alt=""><div><div class="fw-semibold small">AirPods Max</div><div class="small text-muted">SKU: APM-SILVER</div></div></div></td><td><span class="badge bg-light text-dark border">Audio</span></td><td>18</td><td>Rp 8.500.000</td><td><span class="badge bg-success">Aktif</span></td><td><a href="#" class="btn btn-sm btn-light border"><i class="bi bi-eye"></i></a></td></tr>
+                                <tr><td><input type="checkbox"></td><td><div class="d-flex align-items-center"><img src="https://images.unsplash.com/photo-1525598912003-663126343e1f?w=100&h=100&fit=crop" class="rounded me-2" width="36" height="36" alt=""><div><div class="fw-semibold small">Apple Watch Ultra 2</div><div class="small text-muted">SKU: AWU2-49</div></div></div></td><td><span class="badge bg-light text-dark border">Wearable</span></td><td>0</td><td>Rp 13.200.000</td><td><span class="badge bg-secondary">Draft</span></td><td><a href="#" class="btn btn-sm btn-light border"><i class="bi bi-eye"></i></a></td></tr>
+                                <tr><td><input type="checkbox"></td><td><div class="d-flex align-items-center"><img src="https://images.unsplash.com/photo-1498049794561-7780e7231661?w=100&h=100&fit=crop" class="rounded me-2" width="36" height="36" alt=""><div><div class="fw-semibold small">Magic Keyboard</div><div class="small text-muted">SKU: MGK-BLK</div></div></div></td><td><span class="badge bg-light text-dark border">Accessories</span></td><td>67</td><td>Rp 2.100.000</td><td><span class="badge bg-success">Aktif</span></td><td><a href="#" class="btn btn-sm btn-light border"><i class="bi bi-eye"></i></a></td></tr>
+                                <tr><td><input type="checkbox"></td><td><div class="d-flex align-items-center"><div class="bg-warning bg-opacity-10 text-warning rounded d-flex align-items-center justify-content-center me-2" style="width:36px;height:36px;"><i class="ri-t-shirt-line"></i></div><div><div class="fw-semibold small">Kaos Polos Cotton</div><div class="small text-muted">SKU: KAOS-M-BLK</div></div></div></td><td><span class="badge bg-light text-dark border">Fashion</span></td><td>120</td><td>Rp 89.000</td><td><span class="badge bg-success">Aktif</span></td><td><a href="#" class="btn btn-sm btn-light border"><i class="bi bi-eye"></i></a></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer bg-white border-top small text-muted">Tip: klik header untuk sort. Ketik di search untuk filter realtime. Tombol Excel/PDF/Print ada di atas tabel.</div>
+            </div>
+
+            <!-- ===== 2. SIMPLE DATATABLE (tanpa buttons) ===== -->
+            <div class="row g-3 mt-1">
+                <div class="col-lg-6">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white border-bottom"><h5 class="card-title mb-0">Simple Datatable</h5><p class="small text-muted mb-0">Tanpa export, hanya search + pagination</p></div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="simpleDatatable" class="table table-hover table-centered mb-0 w-100">
+                                    <thead class="table-light"><tr><th>#</th><th>Pelanggan</th><th>Kota</th><th>Status</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>1</td><td>Budi Santoso</td><td>Jakarta</td><td><span class="badge bg-success">Aktif</span></td></tr>
+                                        <tr><td>2</td><td>Siti Rahma</td><td>Bandung</td><td><span class="badge bg-success">Aktif</span></td></tr>
+                                        <tr><td>3</td><td>Ahmad Fauzi</td><td>Surabaya</td><td><span class="badge bg-warning">Pending</span></td></tr>
+                                        <tr><td>4</td><td>Dewi Lestari</td><td>Yogyakarta</td><td><span class="badge bg-danger">Blokir</span></td></tr>
+                                        <tr><td>5</td><td>Putri Ayu</td><td>Medan</td><td><span class="badge bg-success">Aktif</span></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white border-bottom"><h5 class="card-title mb-0">Datatable — Cara Contek</h5></div>
+                        <div class="card-body small text-muted">
+                            <p class="mb-2"><strong>Copy blok:</strong> <code>&lt;table id="mainDatatable"&gt;</code> + script di bawah <code>&lt;script&gt;</code>.</p>
+                            <ul class="mb-2 ps-3">
+                                <li>Ganti <code>ajax</code> dengan URL API kamu untuk server-side.</li>
+                                <li>Untuk hapus export, hapus <code>buttons: [...]</code>.</li>
+                                <li>Untuk tambah kolom, tambah <code>&lt;th&gt;</code> + <code>columns: [...]</code> di JS.</li>
+                            </ul>
+                            <pre class="bg-light border rounded p-2 small mb-0" style="font-size:11px; overflow-x:auto;">$('#mainDatatable').DataTable({
+  dom: 'Bfrtip',
+  buttons: ['excel','pdf','print'],
+  pageLength: 10,
+  language: { search: "Cari:" }
+});</pre>
+                        </div>
+                    </div>
+                    <div class="card shadow-sm border-0 mt-3">
+                        <div class="card-header bg-white border-bottom"><h5 class="card-title mb-0">Bulk Action Example</h5></div>
+                        <div class="card-body d-flex gap-2">
+                            <button class="btn btn-light border btn-sm" onclick="alert('Hapus terpilih - ganti dengan AJAX')"><i class="ri-delete-bin-line me-1"></i> Hapus Terpilih</button>
+                            <button class="btn btn-primary btn-sm"><i class="ri-download-line me-1"></i> Export Terpilih</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="footer mt-4 py-3 border-top text-center text-muted small">2026 © Adminto • Datatables template — copy <code>table#mainDatatable</code></footer>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Tambah Produk</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body small text-muted">Ganti dengan form kamu (lihat 04-forms.html / 10-form-advanced.html)</div><div class="modal-footer"><button class="btn btn-light border" data-bs-dismiss="modal">Batal</button><button class="btn btn-primary">Simpan</button></div></div></div></div>
+    <div class="modal fade" id="helpModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Cara Pakai Datatables</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body small text-muted"><ol><li>Include CDN jQuery + DataTables (sudah ada di file ini)</li><li>Copy <code>&lt;table id="mainDatatable"&gt;</code></li><li>Copy script inisialisasi di bawah</li><li>Ganti data <code>&lt;tbody&gt;</code> dengan data backend atau pakai <code>ajax: "/api/produk"</code></li></ol></div></div></div></div>
+
+    <nav class="mobile-bottom-bar d-lg-none"><a href="javascript:history.back()" class="bottom-item"><i class="ri-arrow-left-line"></i><span>BACK</span></a><a href="#" class="bottom-item" id="bottomRefresh"><i class="ri-refresh-line"></i><span>REFRESH</span></a><a href="../ERP.html" class="bottom-item fab-item"><div class="fab-circle"><i class="ri-home-5-fill"></i></div><span>HOME</span></a><a href="#" class="bottom-item"><i class="ri-user-3-line"></i><span>PROFILE</span></a><a href="#" class="bottom-item" data-bs-toggle="modal" data-bs-target="#helpModal"><i class="ri-logout-box-r-line"></i><span>LOGOUT</span></a></nav>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        $(function(){
+            const main = $('#mainDatatable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    { extend: 'excel', text: '<i class="ri-file-excel-line me-1"></i> Excel', className: 'btn btn-success btn-sm' },
+                    { extend: 'pdf', text: '<i class="ri-file-text-line me-1"></i> PDF', className: 'btn btn-danger btn-sm' },
+                    { extend: 'print', text: '<i class="ri-printer-line me-1"></i> Print', className: 'btn btn-dark btn-sm' }
+                ],
+                pageLength: 5,
+                lengthMenu: [5,10,25,50],
+                order: [[1,'asc']],
+                columnDefs: [{ orderable:false, targets:[0,6] }],
+                language: { search: "Cari:", lengthMenu: "_MENU_ / halaman", info: "Menampilkan _START_-_END_ dari _TOTAL_", paginate: { previous: "Prev", next: "Next" } }
+            });
+            $('#customSearch').on('keyup', function(){ main.search(this.value).draw(); });
+            $('#customFilter').on('change', function(){ main.column(5).search(this.value).draw(); });
+            $('#checkAll').on('change', function(){ $('#mainDatatable tbody input[type="checkbox"]').prop('checked', this.checked); });
+            $('#simpleDatatable').DataTable({ pageLength: 5, lengthMenu: [5,10], language: { search: "Cari:" } });
+        });
+    </script>
+</body>
+</html>

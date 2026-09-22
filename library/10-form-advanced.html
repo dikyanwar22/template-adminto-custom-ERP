@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Advanced - Adminto Template</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        .dropzone { border:2px dashed #dee2e6; border-radius:10px; background:#f8f9fa; padding:30px; text-align:center; cursor:pointer; transition:all .2s; }
+        .dropzone.drag { border-color:#727cf5; background:#f0f0ff; }
+        .step-circle { width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; }
+        .step-circle.active { background:#727cf5; color:#fff; }
+        .step-circle.done { background:#0acf97; color:#fff; }
+        .step-circle.idle { background:#e9ecef; color:#6c757d; }
+    </style>
+</head>
+<body>
+    <header class="top-header">
+        <a href="../ERP.html" class="logo-box"><i class="ri-dashboard-line"></i><span>ADMINTO</span></a>
+        <button class="btn btn-dark d-lg-none ms-2" id="mobileMenuToggle"><i class="bi bi-list fs-4"></i></button>
+        <div class="topnav-wrapper flex-grow-1 mx-3">
+            <button class="scroll-btn scroll-left d-none" id="scrollLeft"><i class="bi bi-chevron-left"></i></button>
+            <nav class="topnav" id="topnav">
+                <a href="#" class="topnav-item"><i class="ri-dashboard-line"></i><span>Dashboard</span></a>
+                <a href="#" class="topnav-item active"><i class="ri-quill-pen-line"></i><span>Form Advanced</span></a>
+                <a href="#" class="topnav-item"><i class="ri-table-line"></i><span>Datatables</span></a>
+            </nav>
+            <button class="scroll-btn scroll-right" id="scrollRight"><i class="bi bi-chevron-right"></i></button>
+        </div>
+        <div class="header-actions d-flex align-items-center gap-2">
+            <div class="dropdown ms-1"><a class="nav-link d-flex align-items-center gap-2 text-white" href="#" data-bs-toggle="dropdown"><img src="https://i.pravatar.cc/100?img=12" class="rounded-circle" width="32" height="32" alt=""><span class="d-none d-md-inline small fw-semibold">Dicky</span></a><ul class="dropdown-menu dropdown-menu-end"><li><a class="dropdown-item" href="#">My Account</a></li></ul></div>
+        </div>
+    </header>
+    <div class="mobile-drawer" id="mobileDrawer"><div class="drawer-header d-flex justify-content-between align-items-center p-3 border-bottom"><span class="fw-bold text-white"><i class="ri-dashboard-line me-2"></i>ADMINTO</span><button class="btn btn-sm btn-outline-light" id="mobileDrawerClose"><i class="bi bi-x-lg"></i></button></div><div class="drawer-body p-2"><a href="#" class="drawer-link active"><i class="ri-quill-pen-line me-2"></i> Form Advanced</a></div></div>
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+
+    <div class="main-content">
+        <div class="container-fluid">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 py-3">
+                <div><h4 class="mb-1 fw-bold">Form Advanced</h4><nav aria-label="breadcrumb"><ol class="breadcrumb mb-0 small"><li class="breadcrumb-item"><a href="#">Adminto</a></li><li class="breadcrumb-item active">Form Advanced</li></ol></nav></div>
+                <span class="badge bg-primary">flatpickr • Tom Select • Dropzone</span>
+            </div>
+
+            <div class="row g-3">
+                <!-- LEFT -->
+                <div class="col-lg-6">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white border-bottom"><h5 class="card-title mb-0">Date & Time Picker</h5><p class="small text-muted mb-0">Copy input + flatpickr init</p></div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6"><label class="form-label small fw-semibold">Tanggal (single)</label><input id="dateSingle" type="text" class="form-control" placeholder="Pilih tanggal"><div class="form-text small">flatpickr mode single</div></div>
+                                <div class="col-md-6"><label class="form-label small fw-semibold">Range</label><input id="dateRange" type="text" class="form-control" placeholder="Pilih range"><div class="form-text small">mode range</div></div>
+                                <div class="col-md-6"><label class="form-label small fw-semibold">Date + Time</label><input id="dateTime" type="text" class="form-control" placeholder="Pilih tanggal & jam"></div>
+                                <div class="col-md-6"><label class="form-label small fw-semibold">Time Only</label><input id="timeOnly" type="text" class="form-control" placeholder="Jam"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm border-0 mt-3">
+                        <div class="card-header bg-white border-bottom"><h5 class="card-title mb-0">Tom Select (Searchable)</h5><p class="small text-muted mb-0">Pengganti select2 — ringan</p></div>
+                        <div class="card-body">
+                            <div class="mb-3"><label class="form-label small fw-semibold">Pilih Produk (searchable)</label><select id="tomSingle" placeholder="Ketik untuk cari..."><option value="">Pilih...</option><option>MacBook Pro 14"</option><option>iPhone 15 Pro</option><option>AirPods Max</option><option>Magic Keyboard</option><option>iPad Air</option></select></div>
+                            <div class="mb-3"><label class="form-label small fw-semibold">Multi Select + Tag</label><select id="tomMulti" multiple placeholder="Pilih kategori..."><option>Electronics</option><option>Fashion</option><option>Groceries</option><option>Accessories</option><option>Wearable</option></select></div>
+                            <div class="mb-0"><label class="form-label small fw-semibold">Remote (AJAX) — contoh</label><select id="tomRemote" placeholder="Ketik nama pelanggan..."></select><div class="form-text small">Ganti <code>load: function(query, cb){ fetch('/api/pelanggan?q='+query)...}</code></div></div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm border-0 mt-3">
+                        <div class="card-header bg-white border-bottom"><h5 class="card-title mb-0">File Upload — Drag & Drop</h5></div>
+                        <div class="card-body">
+                            <div id="dropzone" class="dropzone">
+                                <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width:48px;height:48px;"><i class="ri-upload-cloud-2-line fs-4"></i></div>
+                                <h6 class="fw-semibold small">Drop file di sini atau klik</h6>
+                                <p class="small text-muted mb-2">PNG, JPG, PDF — max 5MB</p>
+                                <input type="file" id="fileInput" hidden multiple accept=".png,.jpg,.pdf">
+                                <button class="btn btn-primary btn-sm" onclick="document.getElementById('fileInput').click()">Pilih File</button>
+                            </div>
+                            <div id="fileList" class="mt-3"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Wizard -->
+                <div class="col-lg-6">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white border-bottom"><h5 class="card-title mb-0">Form Wizard (Stepper)</h5><p class="small text-muted mb-0">3 langkah — copy blok wizard</p></div>
+                        <div class="card-body">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <div class="d-flex align-items-center gap-2"><div id="step1" class="step-circle active">1</div><span class="small fw-semibold">Info Produk</span></div>
+                                <div class="flex-grow-1 mx-2" style="height:2px; background:#e9ecef;"></div>
+                                <div class="d-flex align-items-center gap-2"><div id="step2" class="step-circle idle">2</div><span class="small fw-semibold">Harga & Stok</span></div>
+                                <div class="flex-grow-1 mx-2" style="height:2px; background:#e9ecef;"></div>
+                                <div class="d-flex align-items-center gap-2"><div id="step3" class="step-circle idle">3</div><span class="small fw-semibold">Selesai</span></div>
+                            </div>
+
+                            <form id="wizardForm">
+                                <div class="wizard-pane" id="pane1">
+                                    <div class="mb-3"><label class="form-label small fw-semibold">Nama Produk *</label><input type="text" class="form-control" required placeholder="MacBook Pro"><div class="invalid-feedback">Wajib isi</div></div>
+                                    <div class="mb-3"><label class="form-label small fw-semibold">Kategori *</label><select class="form-select" required><option value="">Pilih...</option><option>Electronics</option><option>Fashion</option></select></div>
+                                    <div class="mb-3"><label class="form-label small fw-semibold">Deskripsi</label><textarea class="form-control" rows="3"></textarea></div>
+                                </div>
+                                <div class="wizard-pane d-none" id="pane2">
+                                    <div class="row g-2"><div class="col-6"><label class="form-label small fw-semibold">Harga *</label><div class="input-group"><span class="input-group-text">Rp</span><input type="number" class="form-control" required placeholder="0"></div></div><div class="col-6"><label class="form-label small fw-semibold">Stok *</label><input type="number" class="form-control" required placeholder="0"></div></div>
+                                    <div class="mb-3 mt-3"><label class="form-label small fw-semibold">SKU</label><input type="text" class="form-control" placeholder="SKU-001"></div>
+                                    <div class="form-check"><input class="form-check-input" type="checkbox" checked><label class="form-check-label small">Aktifkan produk setelah simpan</label></div>
+                                </div>
+                                <div class="wizard-pane d-none text-center py-4" id="pane3">
+                                    <div class="bg-success bg-opacity-10 text-success rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:64px;height:64px;"><i class="ri-checkbox-circle-line fs-1"></i></div>
+                                    <h6 class="fw-bold">Siap disimpan!</h6><p class="small text-muted">Periksa kembali data sebelum submit.</p>
+                                    <div class="alert alert-light border text-start small mb-0"><strong>Ringkasan:</strong> data dari pane 1 & 2 akan dikirim via <code>FormData</code> atau AJAX.</div>
+                                </div>
+                            </form>
+                            <div class="d-flex justify-content-between mt-4">
+                                <button class="btn btn-light border" id="prevBtn" disabled><i class="ri-arrow-left-line me-1"></i> Kembali</button>
+                                <button class="btn btn-primary" id="nextBtn">Lanjut <i class="ri-arrow-right-line ms-1"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm border-0 mt-3">
+                        <div class="card-header bg-white border-bottom"><h5 class="card-title mb-0">Rich Text Editor</h5><p class="small text-muted mb-0">contenteditable — ringan tanpa library berat</p></div>
+                        <div class="card-body">
+                            <div class="btn-group btn-group-sm mb-2" role="group">
+                                <button class="btn btn-light border" onclick="document.execCommand('bold',false,null)"><i class="ri-bold"></i></button>
+                                <button class="btn btn-light border" onclick="document.execCommand('italic',false,null)"><i class="ri-italic"></i></button>
+                                <button class="btn btn-light border" onclick="document.execCommand('insertUnorderedList',false,null)"><i class="ri-list-unordered"></i></button>
+                                <button class="btn btn-light border" onclick="document.execCommand('createLink',false,prompt('URL:'))"><i class="ri-link"></i></button>
+                            </div>
+                            <div id="editor" contenteditable="true" class="form-control" style="min-height:120px;">Tulis deskripsi produk di sini... <b>Bold</b>, <i>italic</i>, list, link.</div>
+                            <div class="form-text small">Copy <code>#editor[contenteditable]</code> + toolbar. Untuk produksi bisa ganti Quill/TinyMCE.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="footer mt-4 py-3 border-top text-center text-muted small">2026 © Adminto • Form Advanced — copy tiap card sesuai kebutuhan</footer>
+        </div>
+    </div>
+    <nav class="mobile-bottom-bar d-lg-none"><a href="javascript:history.back()" class="bottom-item"><i class="ri-arrow-left-line"></i><span>BACK</span></a><a href="#" class="bottom-item" id="bottomRefresh"><i class="ri-refresh-line"></i><span>REFRESH</span></a><a href="../ERP.html" class="bottom-item fab-item"><div class="fab-circle"><i class="ri-home-5-fill"></i></div><span>HOME</span></a><a href="#" class="bottom-item"><i class="ri-user-3-line"></i><span>PROFILE</span></a><a href="#" class="bottom-item"><i class="ri-quill-pen-line"></i><span>FORM</span></a></nav>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        flatpickr('#dateSingle', { dateFormat: 'd-m-Y', locale: 'id' });
+        flatpickr('#dateRange', { mode: 'range', dateFormat: 'd-m-Y' });
+        flatpickr('#dateTime', { enableTime:true, dateFormat: 'd-m-Y H:i' });
+        flatpickr('#timeOnly', { enableTime:true, noCalendar:true, dateFormat: 'H:i' });
+        new TomSelect('#tomSingle', { create:false, sortField:{ field:'text', direction:'asc'} });
+        new TomSelect('#tomMulti', { plugins:['remove_button'] });
+        new TomSelect('#tomRemote', {
+            valueField:'id', labelField:'name', searchField:'name',
+            load: function(q, cb){
+                if(!q.length) return cb();
+                // contoh mock - ganti dengan fetch('/api/pelanggan?q='+q)
+                const mock = [{id:1,name:'Budi Santoso'},{id:2,name:'Siti Rahma'},{id:3,name:'Ahmad Fauzi'}].filter(x=>x.name.toLowerCase().includes(q.toLowerCase()));
+                cb(mock);
+            }
+        });
+        // dropzone
+        const dz = document.getElementById('dropzone'), fi = document.getElementById('fileInput'), fl = document.getElementById('fileList');
+        ['dragenter','dragover'].forEach(e=> dz.addEventListener(e, ev=>{ev.preventDefault(); dz.classList.add('drag')}))
+        ;['dragleave','drop'].forEach(e=> dz.addEventListener(e, ev=>{ev.preventDefault(); dz.classList.remove('drag')}))
+        dz.addEventListener('drop', e=> handleFiles(e.dataTransfer.files));
+        dz.addEventListener('click', ()=> fi.click());
+        fi.addEventListener('change', ()=> handleFiles(fi.files));
+        function handleFiles(files){
+            fl.innerHTML='';
+            [...files].forEach(f=>{
+                const div=document.createElement('div');
+                div.className='d-flex align-items-center gap-2 border rounded p-2 mb-2 bg-white';
+                div.innerHTML=`<div class="bg-primary bg-opacity-10 text-primary rounded d-flex align-items-center justify-content-center" style="width:36px;height:36px;"><i class="ri-file-line"></i></div><div class="flex-grow-1"><div class="small fw-semibold">${f.name}</div><div class="small text-muted">${(f.size/1024).toFixed(1)} KB</div></div><span class="badge bg-success">ready</span>`;
+                fl.appendChild(div);
+            });
+        }
+        // wizard
+        let cur=1;
+        const panes=[1,2,3].map(i=>document.getElementById('pane'+i));
+        const steps=[1,2,3].map(i=>document.getElementById('step'+i));
+        function showPane(n){
+            panes.forEach((p,i)=> p.classList.toggle('d-none', i!==(n-1)));
+            steps.forEach((s,i)=>{
+                s.className='step-circle '+(i+1<n?'done':i+1===n?'active':'idle');
+                s.innerHTML = i+1<n?'✓':i+1;
+            });
+            document.getElementById('prevBtn').disabled = n===1;
+            document.getElementById('nextBtn').textContent = n===3 ? 'Submit' : 'Lanjut';
+            if(n===3) document.getElementById('nextBtn').innerHTML='Submit <i class="ri-check-line ms-1"></i>';
+            else document.getElementById('nextBtn').innerHTML='Lanjut <i class="ri-arrow-right-line ms-1"></i>';
+        }
+        document.getElementById('nextBtn').addEventListener('click', ()=>{
+            if(cur<3){ // validasi simpel
+                const pane = document.getElementById('pane'+cur);
+                const req = pane.querySelectorAll('[required]');
+                for(const el of req){ if(!el.value.trim()){ el.classList.add('is-invalid'); el.focus(); return; } else el.classList.remove('is-invalid'); }
+                cur++; showPane(cur);
+            } else { alert('Submit! Ganti dengan AJAX / form submit'); cur=1; showPane(1); }
+        });
+        document.getElementById('prevBtn').addEventListener('click', ()=>{ if(cur>1){ cur--; showPane(cur);} });
+        showPane(1);
+    </script>
+</body>
+</html>
